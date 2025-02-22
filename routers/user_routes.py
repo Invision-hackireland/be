@@ -11,6 +11,17 @@ class UserCreate(BaseModel):
     rules_ids: list[str] = []   # List of Rule UUIDs
     rooms_ids: list[str] = []   # List of Room UUIDs
 
+# Example curl command:
+# curl -X POST "http://localhost:8000/users" \
+#   -H "Content-Type: application/json" \
+#   -d '{
+#         "email": "example@example.com",
+#         "firstname": "John",
+#         "camera_ids": [],
+#         "rules_ids": [],
+#         "rooms_ids": []
+#       }'
+
 @router.post("/users")
 async def create_user(user: UserCreate):
     try:
