@@ -2,10 +2,21 @@ from fastapi import FastAPI
 from pydantic import BaseModel  # Import BaseModel from pydantic
 from video_processor import VideoProcessor
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 from routers import room_router, camera_router, user_router, rule_router, logs_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+
 processor = VideoProcessor()
 
 @app.post("/start")
