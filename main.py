@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from tasks.process_feed import background_loop
 from video_processor import VideoProcessor
 from routers import room_router, camera_router, user_router, rule_router, logs_router, dashboard_router
 
