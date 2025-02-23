@@ -16,7 +16,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-
 processor = VideoProcessor()
 
 @app.post("/start")
