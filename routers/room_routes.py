@@ -54,7 +54,7 @@ async def create_room(room: RoomCreate):
             }
             ''',
             user_id=room.user_id,
-            room_id=room_obj.id  # Accessing id via dot notation
+            room_id=room_obj.id
         )
         return room_obj
     except Exception as e:

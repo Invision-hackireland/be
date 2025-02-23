@@ -119,7 +119,7 @@ async def get_camera_rules(camera_id: str, user_id: str = Query(...)):
     Returns rule texts for the specified user and camera.
     - For rules where `shared` is true, the rule is always returned.
     - For rules where `shared` is false, the rule is returned only if one of its linked rooms
-      matches the room of the specified camera.
+        matches the room of the specified camera.
 
     Example curl:
     curl -X GET "http://localhost:8000/cameras/CAMERA_UUID/rules?user_id=YOUR_USER_UUID"
