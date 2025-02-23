@@ -55,3 +55,46 @@ async def create_rule(rule: RuleCreate):
         return rule_obj
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+@router.get("/rules")
+async def get_rules(user_id: str):
+    try:
+        # Fetch all the rooms for the given user and then fetch the rules associated with those rooms.
+        rules = await client.query(
+            '''
+                WITH
+                theUser := (
+                    SELECT User FILTER .id = <uuid>$user_id
+                )
+                SELECT theUser {
+                id,
+                firstname,
+                rules := (
+                    FOR r IN { theUser.rules }
+                    UNION (
+                    SELECT r {
+                        id,
+                        text,
+                        shared,
+                        rooms := (
+                        IF r.shared THEN
+                            (SELECT theUser.rooms)
+                        ELSE
+                            (SELECT r.rooms)
+                        ) {name}
+                    }
+                    )
+                )
+                }
+
+            ''',
+            user_id=user_id
+        )
+        
+        return rules
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+
+

@@ -23,14 +23,18 @@ module default {
         required property ip_address -> str {
             constraint exclusive;
         }
-        required link room -> Room;
+        required link room -> Room{
+            on target delete allow;
+        };
         multi link logs -> LogEntry;
     }
 
     type Rule extending Base {
         required property text -> str;
         required property shared -> bool;
-        optional multi link rooms -> Room;
+        optional multi link rooms -> Room {
+            on target delete allow;
+        };
     }
 
     type User extending Base {
@@ -40,6 +44,8 @@ module default {
         required property firstname -> str;
         multi link camera -> Camera;
         multi link rules -> Rule;
-        multi link rooms -> Room;
+        multi link rooms -> Room{
+            on target delete allow;
+        };
     }
 }

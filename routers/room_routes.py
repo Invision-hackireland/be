@@ -115,6 +115,7 @@ async def get_rooms(user_id: str):
         FOR r IN { user_rooms }
         UNION (
             SELECT {
+            uid := r.id,
             name := r.name,
             num_cameras := (
                 SELECT count(Camera FILTER .room.id = r.id)
