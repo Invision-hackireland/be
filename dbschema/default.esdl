@@ -1,9 +1,8 @@
 module default {
 
     abstract type Base {
-        annotation description := "Base 
-        abstract type for other types to inherit."; property 
-        date_created -> datetime {
+        annotation description := "Base abstract type for other types to inherit.";
+        property date_created -> datetime {
             default := datetime_current();
         }
     }
@@ -40,7 +39,7 @@ module default {
         }
         required property firstname -> str;
         multi link camera -> Camera;
-        required multi link rules -> Rule;
-        required multi link rooms -> Room;
+        multi link rules -> Rule;
+        multi link rooms -> Room;
     }
 }
