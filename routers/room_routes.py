@@ -68,6 +68,7 @@ async def create_room(room: RoomCreate):
             UNION (
                 SELECT {
                 name := r.name,
+                uid := r.id,
                 num_cameras := (
                     SELECT count(Camera FILTER .room.id = r.id)
                 ),
