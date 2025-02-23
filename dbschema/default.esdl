@@ -27,6 +27,9 @@ module default {
             on target delete allow;
         };
         multi link logs -> LogEntry;
+        required property chunks -> array<str> {
+            default := <array<str>>[];
+        }
     }
 
     type Rule extending Base {
