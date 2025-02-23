@@ -56,7 +56,32 @@ async def create_room(room: RoomCreate):
             user_id=room.user_id,
             room_id=room_obj.id
         )
-        return room_obj
+
+        # Get all rooms for the user.
+        rooms = await client.query(
+            '''
+            WITH 
+            u := (SELECT User FILTER .id = <uuid>$user_id),
+            user_rooms := (SELECT u.rooms)
+            SELECT (
+            FOR r IN { user_rooms }
+            UNION (
+                SELECT {
+                name := r.name,
+                num_cameras := (
+                    SELECT count(Camera FILTER .room.id = r.id)
+                ),
+                num_rules := (
+                    SELECT count(Rule FILTER r.id IN (.rooms.id))
+                )
+                }
+            )
+            )
+            ''',
+            user_id=room.user_id
+        )
+
+        return rooms
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -75,24 +100,33 @@ async def delete_room(room_id: str):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# sample ":curl -X GET "http://localhost:8000/rooms?user_id=YOUR_USER_UUID"
+#sample ":curl -X GET "http://localhost:8000/rooms?user_id=YOUR_USER_UUID"
 @router.get("/rooms")
 async def get_rooms(user_id: str):
+    """
+    Returns all rooms for the user, along with the camera count and rule count for each room.
+    """
     try:
-        rooms = await client.query(
-            '''
-            WITH u := (
-                SELECT User FILTER .id = <uuid>$user_id
+        query = r'''
+        WITH 
+        u := (SELECT User FILTER .id = <uuid>$user_id),
+        user_rooms := (SELECT u.rooms)
+        SELECT (
+        FOR r IN { user_rooms }
+        UNION (
+            SELECT {
+            name := r.name,
+            num_cameras := (
+                SELECT count(Camera FILTER .room.id = r.id)
+            ),
+            num_rules := (
+                SELECT count(Rule FILTER r.id IN (.rooms.id))
             )
-            SELECT u.rooms {
-                id,
-                name,
-                num_cameras := count(.cameras),
-                num_rules := count(.rules)
-            };
-            ''',
-            user_id=user_id
+            }
         )
+        )
+        '''
+        rooms = await client.query(query, user_id=user_id)
         return rooms
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
