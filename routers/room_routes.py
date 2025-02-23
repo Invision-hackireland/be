@@ -74,14 +74,26 @@ async def delete_room(room_id: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
+# sample ":curl -X GET "http://localhost:8000/rooms?user_id=YOUR_USER_UUID"
 @router.get("/rooms")
-async def get_rooms():
+async def get_rooms(user_id: str):
     try:
         rooms = await client.query(
             '''
-            SELECT Room { id, name }
-            '''
+            WITH u := (
+                SELECT User FILTER .id = <uuid>$user_id
+            )
+            SELECT u.rooms {
+                id,
+                name,
+                num_cameras := count(.cameras),
+                num_rules := count(.rules)
+            };
+            ''',
+            user_id=user_id
         )
         return rooms
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+

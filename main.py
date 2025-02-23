@@ -4,7 +4,7 @@ from video_processor import VideoProcessor
 import os
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import room_router, camera_router, user_router, rule_router, logs_router
+from routers import room_router, camera_router, user_router, rule_router, logs_router, dashboard_router
 
 app = FastAPI()
 
@@ -95,3 +95,4 @@ app.include_router(camera_router)
 app.include_router(user_router)
 app.include_router(rule_router)
 app.include_router(logs_router)
+app.include_router(dashboard_router)
