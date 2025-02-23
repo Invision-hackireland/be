@@ -126,5 +126,6 @@ def init_loop():
     ''')
 
 def background_loop_manager():
+    return
     init_loop()
     spawn_processes()

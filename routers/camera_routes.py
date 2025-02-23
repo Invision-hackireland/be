@@ -90,7 +90,7 @@ async def get_cameras(user_id: str = Query(None), room_id: str = Query(None)):
         params["room_id"] = room_id
     if user_id:
         filters.append(
-            ".id IN (SELECT cam FROM User UNNEST .camera AS cam FILTER .id = <uuid>$user_id)"
+            ".id IN ( WITH U := (SELECT User FILTER .id = <uuid>$user_id) SELECT U.camera.id)"
         )
         params["user_id"] = user_id
         
@@ -105,6 +105,8 @@ async def get_cameras(user_id: str = Query(None), room_id: str = Query(None)):
     }}
     FILTER {filter_clause}
     """
+
+    print(query)
     
     try:
         cameras = await client.query(query, **params)
