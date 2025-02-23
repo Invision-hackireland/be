@@ -8,3 +8,4 @@ edgedb
 google-genai
 google-generativeai
 opencv-python
+openai
