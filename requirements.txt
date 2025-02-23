@@ -5,3 +5,6 @@ numpy
 requests
 python-dotenv
 edgedb
+google-genai
+google-generativeai
+opencv-python
