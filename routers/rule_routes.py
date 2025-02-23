@@ -27,12 +27,15 @@ async def create_rule(rule: RuleCreate):
         # Insert the Rule record with an optional link to rooms.
         rule_obj = await client.query_single(
             '''
-            INSERT Rule {
-                text := <str>$text,
-                shared := <bool>$shared,
-                rooms := (SELECT Room FILTER .id IN <array<uuid>>$rooms_ids)
-            }
-            RETURNING { id, text, shared }
+            WITH
+                new_rule := (
+                    INSERT Rule {
+                        text := <str>$text,
+                        shared := <bool>$shared,
+                        rooms := (SELECT Room FILTER .id IN array_unpack(<array<uuid>>$rooms_ids))
+                    }
+                )
+            SELECT new_rule { id, text, shared }
             ''',
             text=rule.text,
             shared=rule.shared,
@@ -46,7 +49,7 @@ async def create_rule(rule: RuleCreate):
             }
             ''',
             user_id=rule.user_id,
-            rule_id=rule_obj["id"]
+            rule_id= rule_obj.id
         )
         
         return rule_obj
