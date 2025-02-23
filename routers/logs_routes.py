@@ -48,7 +48,9 @@ async def simulate_log_entry(camera_id: str, video_id: str):
 
         annotator = VideoAnnotator()
         # Run the analysis for a given camera and video file path
-        annotations = annotator.run(camera_id=camera_id, video_file_path=video_path)
+        annotations = annotator.run(camera_id=camera_id, user_id=user_id, video_file_path=video_path)
+        with open("annotations.json", "w") as f:
+            f.write(str(annotations))
         print("Video Annotations done")
         
         # Now, initialize the VideoAnalyzer (OPENAI_API_KEY is loaded from .env if not passed)

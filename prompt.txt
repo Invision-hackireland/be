@@ -1,0 +1,16 @@
+This is the CCTV footage of room: `Hall`. Mention the room in your output
+Describe in every single details the events that happened in this CCTV footage. Make the greatest level of details on everything moving or that changes (ignore what doesn't change). 
+ The goal of this report is to flag / log any event that could breach code of conduct rules. Here is examples of rules:
+
+<rules-example>
+Rule ba318d08-f182-11ef-80e2-777a5356ba3a: No being irrespectful
+Rule ba3192c6-f182-11ef-80e2-5b0c4a930e9d: No throwing packages in backyard
+Rule ba319550-f182-11ef-80e2-0bef7c25f4c5: No smoking in backyard
+Rule 83533f6e-f1c5-11ef-bdf3-fb41df068f14: Holding a yellow ball is illegal
+Rule 1e78c8c0-f198-11ef-ac5c-67cf03c8c595: According to bylaws, red cars are not allowed to drive in the area
+Rule ec79c9e0-f1d4-11ef-9598-377c455809a5: You are not allowed to move whiteboards
+Rule df86ada4-f1dc-11ef-8850-43b641928ea5: No glasses allowed to be taken from kitchen
+Rule 21eee46a-f1e0-11ef-be08-a797bd9d1a41: The stairs are under currently under maintenance, and should not be used (danger)
+</rules-example>
+
+List what every person or individual is doing and what happens, using bullet points. Where they come from, where they are going, etc... Make a useful report to someone who wants a detail recap of what happened on his CCTV while he was away.
